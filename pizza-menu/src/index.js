@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./index.css";
 
 const pizzaData = [
   {
@@ -48,7 +49,7 @@ const pizzaData = [
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Header />
       <Menu />
       <Footer />
@@ -57,25 +58,44 @@ function App() {
 }
 
 function Header() {
+  const style = {};
+
   return (
-    <header>
-      <h1>Fast React Pizza Co. </h1>
+    <header className="header">
+      <h1 style={style}>
+        Fast React Pizza Co.{" "}
+      </h1>
     </header>
   );
 }
 
 function Menu() {
   return (
-    <div>
+    <main className="menu">
       <h2>Our Menu</h2>
       <Pizza />
-    </div>
+      <Pizza />
+      <Pizza />
+      <Pizza />
+    </main>
   );
 }
 
 function Footer() {
+  const hour = new Date().getHours();
+  const openHour = 12;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
+
+  if (isOpen) {
+    alert("We're currently open!");
+  } else {
+    alert("We're currently closed!");
+  }
+  console.log("Is the restaurant open?", isOpen);
+
   return (
-    <footer>
+    <footer className="footer">
       <p>{new Date().toLocaleDateString()}. We're currently open!</p>
     </footer>
   );
@@ -85,7 +105,7 @@ function Pizza() {
   return (
     <div>
       <img src="pizzas/focaccia.jpg" alt="Focaccia" />
-      <h2> Pizza </h2>
+      <h3> Pizza </h3>
       <p></p>
     </div>
   );
@@ -93,6 +113,7 @@ function Pizza() {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+//StrictMode renders components twice to detect side effects
 root.render(
   <React.StrictMode>
     <App />
