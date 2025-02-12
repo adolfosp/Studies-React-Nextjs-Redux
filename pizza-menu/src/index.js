@@ -62,9 +62,7 @@ function Header() {
 
   return (
     <header className="header">
-      <h1 style={style}>
-        Fast React Pizza Co.{" "}
-      </h1>
+      <h1 style={style}>Fast React Pizza Co. </h1>
     </header>
   );
 }
@@ -73,11 +71,30 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      <div>
+        {pizzaData.map((pizza) => (
+          <Pizza
+            name={pizza.name}
+            ingredients={pizza.ingredients}
+            photoPath={pizza.photoName}
+            price={pizza.price}
+          />
+        ))}
+      </div>
     </main>
+  );
+}
+
+function Pizza(props) {
+  return (
+    <div>
+      <img src={props.photoPath} width={300} height={300} alt="Focaccia" />
+      <div>
+        <h3> {props.name} </h3>
+        <p>{props.ingredients}</p>
+        <span>R$: {props.price}</span>
+      </div>
+    </div>
   );
 }
 
@@ -98,16 +115,6 @@ function Footer() {
     <footer className="footer">
       <p>{new Date().toLocaleDateString()}. We're currently open!</p>
     </footer>
-  );
-}
-
-function Pizza() {
-  return (
-    <div>
-      <img src="pizzas/focaccia.jpg" alt="Focaccia" />
-      <h3> Pizza </h3>
-      <p></p>
-    </div>
   );
 }
 
