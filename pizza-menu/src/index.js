@@ -68,32 +68,43 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <ul className="pizzas">
-        {pizzaData.map((pizza) => (
-          <Pizza
-            key={pizza.name}
-            name={pizza.name}
-            ingredients={pizza.ingredients}
-            photoPath={pizza.photoName}
-            price={pizza.price}
-          />
-        ))}
-      </ul>
+      {pizzas && (
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza
+                key={pizza.name}
+                name={pizza.name}
+                ingredients={pizza.ingredients}
+                photoPath={pizza.photoName}
+                price={pizza.price}
+                soldOut={pizza.soldOut}
+              />
+            ))}
+          </ul>
+        </>
+      )}
     </main>
   );
 }
 
 function Pizza(props) {
+
   return (
-    <li>
-      <img src={props.photoPath} width={300} height={300} alt="Focaccia" />
+    <li className={`pizza ${props.soldOut ? "sold-out" : ""}`}>
+      <img src={props.photoPath} alt={props.name} />
       <div>
         <h3> {props.name} </h3>
         <p>{props.ingredients}</p>
-        <span>R$: {props.price}</span>
+        {props.soldOut ? <span> Sold Out </span> : <span>{props.price}</span>}
       </div>
     </li>
   );
@@ -105,17 +116,27 @@ function Footer() {
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
 
-  if (isOpen) {
-    alert("We're currently open!");
-  } else {
-    alert("We're currently closed!");
-  }
-  console.log("Is the restaurant open?", isOpen);
-
   return (
     <footer className="footer">
-      <p>{new Date().toLocaleDateString()}. We're currently open!</p>
+      {isOpen ? (
+        <Order openHour={openHour} closeHour={closeHour} />
+      ) : (
+        <p>Sorry, we're currently closed. We open at {openHour}:00 PM.</p>
+      )}
+      <p></p>
     </footer>
+  );
+}
+
+//Pode ser Order(props) e props.openHour e props.closeHour
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHour}:00 PM to {closeHour}:00 PM. Call us at (11)
+        1234-5678 to place an order.
+      </p>
+    </div>
   );
 }
 
